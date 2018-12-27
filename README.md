@@ -2,15 +2,17 @@
 PyTorch implementation of "Super SloMo: High Quality Estimation of Multiple Intermediate Frames for Video Interpolation" by Jiang et al. [[Project]](https://people.cs.umass.edu/~hzjiang/projects/superslomo/) [[Paper]](https://arxiv.org/abs/1712.00080)
 
 ## Results
-Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.edu/~hzjiang/projects/superslomo/UCF101_results.zip) provided by author. The `get_results_bug_fixed.sh` script was used. It uses motions masks when calculating PSNR, SSIM and IE.
+Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.edu/~hzjiang/projects/superslomo/UCF101_results.zip) provided by author. The `get_results_bug_fixed.sh` script was used. It uses motions masks when calculating PSNR, SSIM and IE.  
+
 | Method | PSNR | SSIM | IE |
 |------|:-----:|:-----:|:-----:|
-| DVF | 29.37 | 0.861 | 16.37 |
-| SepConv | 30.03 | 0.869 | 15.78 |
-| SuperSloMo_Adobe240fps | 29.80 | 0.870 | 15.68 |
-| **pretrained mine** | **29.77** | **0.874** | **15.58** |
-| SuperSloMo | 30.22 | 0.880 | 15.18 |
----
+| DVF | 29.37 | 0.861 | 16.37 |  
+| SepConv | 30.03 | 0.869 | 15.78 |  
+| SuperSloMo_Adobe240fps | 29.80 | 0.870 | 15.68 |  
+| **pretrained mine** | **29.77** | **0.874** | **15.58** |  
+| SuperSloMo | 30.22 | 0.880 | 15.18 |  
+
+
 <img src='./misc/original.gif'>
 <img src='./misc/slomo.gif'>
 
