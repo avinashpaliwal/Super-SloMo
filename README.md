@@ -17,7 +17,7 @@ python data\create_dataset.py --ffmpeg_dir path\to\ffmpeg --videos_folder path\t
 ```
 
 ## To-Do's:
-|Add evaluation script for UCF dataset | TBD|
-|Add pretrained model | In Progress|
-|Add getting started guide | TBD|
-|Add video converter script | In progress|
+|Add evaluation script for UCF dataset | TBD|  
+|Add pretrained model | In Progress|  
+|Add getting started guide | TBD|  
+|Add video converter script | In progress|  
