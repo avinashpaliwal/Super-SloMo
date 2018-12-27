@@ -15,3 +15,9 @@ For adobe240fps, [download the dataset](http://www.cs.ubc.ca/labs/imager/tr/2017
 ```bash
 python data\create_dataset.py --ffmpeg_dir path\to\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset --dataset adobe240fps
 ```
+
+## To-Do's:
+|Add evaluation script for UCF dataset | TBD|
+|Add pretrained model | In Progress|
+|Add getting started guide | TBD|
+|Add video converter script | In progress|
