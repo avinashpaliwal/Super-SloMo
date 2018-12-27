@@ -2,19 +2,37 @@
 PyTorch implementation of "Super SloMo: High Quality Estimation of Multiple Intermediate Frames for Video Interpolation" by Jiang et al. [[Project]](https://people.cs.umass.edu/~hzjiang/projects/superslomo/) [[Paper]](https://arxiv.org/abs/1712.00080)
 
 ## Results
+Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.edu/~hzjiang/projects/superslomo/UCF101_results.zip) provided by author. The `get_results_bug_fixed.sh` script was used. It uses motions masks when calculating PSNR, SSIM and IE.
+| Method | PSNR | SSIM | IE |
+|------|:-----:|:-----:|:-----:|
+| DVF | 29.37 | 0.861 | 16.37 |
+| SepConv | 30.03 | 0.869 | 15.78 |
+| SuperSloMo_Adobe240fps | 29.80 | 0.870 | 15.68 |
+| **pretrained mine** | **29.77** | **0.874** | **15.58** |
+| SuperSloMo | 30.22 | 0.880 | 15.18 |
+---
 <img src='./misc/original.gif'>
 <img src='./misc/slomo.gif'>
 
 ## Prerequisites
 This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.
 
-## Preparing training data
-In order to train the model using the provided code, the data needs to be formatted in a certain manner.
-The create_dataset.py script uses [ffmpeg](https://www.ffmpeg.org/) to extract frames from videos.
+## Training
+### Preparing training data
+In order to train the model using the provided code, the data needs to be formatted in a certain manner.  
+The create_dataset.py script uses [ffmpeg](https://www.ffmpeg.org/) to extract frames from videos.  
 For adobe240fps, [download the dataset](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/DeepVideoDeblurring_Dataset_Original_High_FPS_Videos.zip), unzip it and then run the following command
 ```bash
 python data\create_dataset.py --ffmpeg_dir path\to\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset --dataset adobe240fps
 ```
+
+More Info TBA
+
+## Evaluation
+### Pretrained model
+You can download the pretrained model trained on adobe240fps dataset [here](https://drive.google.com/open?id=1IvobLDbRiBgZr3ryCRrWL8xDbMZ-KnpF).
+
+More info TBA
 
 ## To-Do's:
 | Task | Status |
