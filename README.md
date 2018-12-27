@@ -1,5 +1,9 @@
 # Super-SloMo [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
-PyTorch implementation of Super SloMo by Jiang et al. [[Project]](https://people.cs.umass.edu/~hzjiang/projects/superslomo/) [[Paper]](https://arxiv.org/abs/1712.00080)
+PyTorch implementation of "Super SloMo: High Quality Estimation of Multiple Intermediate Frames for Video Interpolation" by Jiang et al. [[Project]](https://people.cs.umass.edu/~hzjiang/projects/superslomo/) [[Paper]](https://arxiv.org/abs/1712.00080)
+
+## Results
+<img src='./misc/original.gif'>
+<img src='./misc/slomo.gif'>
 
 ## Prerequisites
 This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.
