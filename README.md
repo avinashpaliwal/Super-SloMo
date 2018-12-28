@@ -19,6 +19,12 @@ Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.
 
 ## Prerequisites
 This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.
+Install:
+*[PyTorch](https://pytorch.org/get-started/locally/)
+*[TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization
+*[tensorflow](https://www.tensorflow.org/install/) for tensorboard
+*[matplotlib](https://matplotlib.org/users/installing.html) for training graph in notebook.
+*[numpy](https://scipy.org/install.html)
 
 ## Training
 ### Preparing training data
@@ -33,10 +39,12 @@ python data\create_dataset.py --ffmpeg_dir path\to\ffmpeg --videos_folder path\t
 In the [train.ipynb](train.ipynb), set the parameters (dataset path, checkpoint directory, etc.) and run all the cells.  
 
 ### Tensorboard
-To get visualization of your training, you can run tensorboard from the project directory using the command:
+To get visualization of the training, you can run tensorboard from the project directory using the command:
 ```bash
-tensorboard --logdir logs --port 6007
+tensorboard --logdir log --port 6007
 ```
+
+and then go to [https://localhost:6007](https://localhost:6007).
 
 ## Evaluation
 ### Pretrained model
