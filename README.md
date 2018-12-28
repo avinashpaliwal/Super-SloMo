@@ -20,19 +20,31 @@ Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.
 ## Prerequisites
 This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.
 Install:  
-*[PyTorch](https://pytorch.org/get-started/locally/)  
-*[TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization  
-*[tensorflow](https://www.tensorflow.org/install/) for tensorboard  
-*[matplotlib](https://matplotlib.org/users/installing.html) for training graph in notebook.  
-*[numpy](https://scipy.org/install.html)  
+* [PyTorch](https://pytorch.org/get-started/locally/)  
+* [TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization  
+* [tensorflow](https://www.tensorflow.org/install/) for tensorboard  
+* [matplotlib](https://matplotlib.org/users/installing.html) for training graph in notebook.  
+* [numpy](https://scipy.org/install.html)  
 
 ## Training
 ### Preparing training data
 In order to train the model using the provided code, the data needs to be formatted in a certain manner.  
 The create_dataset.py script uses [ffmpeg](https://www.ffmpeg.org/) to extract frames from videos.  
+#### Adobe240fps
 For adobe240fps, [download the dataset](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/DeepVideoDeblurring_Dataset_Original_High_FPS_Videos.zip), unzip it and then run the following command
 ```bash
 python data\create_dataset.py --ffmpeg_dir path\to\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset --dataset adobe240fps
+```
+
+#### Custom
+For custom dataset, run the following command
+```bash
+python data\create_dataset.py --ffmpeg_dir path\to\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset
+```
+
+The default train-test split is 90-10. You can change that using command line argument `--train_test_split`.  Run the following commmand for help
+```bash
+python data\create_dataset.py --h
 ```
 
 ### Training
