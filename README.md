@@ -19,12 +19,12 @@ Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.
 
 ## Prerequisites
 This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.
-Install:
-*[PyTorch](https://pytorch.org/get-started/locally/)
-*[TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization
-*[tensorflow](https://www.tensorflow.org/install/) for tensorboard
-*[matplotlib](https://matplotlib.org/users/installing.html) for training graph in notebook.
-*[numpy](https://scipy.org/install.html)
+Install:  
+*[PyTorch](https://pytorch.org/get-started/locally/)  
+*[TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization  
+*[tensorflow](https://www.tensorflow.org/install/) for tensorboard  
+*[matplotlib](https://matplotlib.org/users/installing.html) for training graph in notebook.  
+*[numpy](https://scipy.org/install.html)  
 
 ## Training
 ### Preparing training data
