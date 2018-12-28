@@ -1,8 +1,8 @@
 # Super-SloMo [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
-PyTorch implementation of "Super SloMo: High Quality Estimation of Multiple Intermediate Frames for Video Interpolation" by Jiang et al. [[Project]](https://people.cs.umass.edu/~hzjiang/projects/superslomo/) [[Paper]](https://arxiv.org/abs/1712.00080)
+PyTorch implementation of "Super SloMo: High Quality Estimation of Multiple Intermediate Frames for Video Interpolation" by Jiang H., Sun D., Jampani V., Yang M., Learned-Miller E. and Kautz J. [[Project]](https://people.cs.umass.edu/~hzjiang/projects/superslomo/) [[Paper]](https://arxiv.org/abs/1712.00080)
 
 ## Results
-Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.edu/~hzjiang/projects/superslomo/UCF101_results.zip) provided by author. The `get_results_bug_fixed.sh` script was used. It uses motions masks when calculating PSNR, SSIM and IE.  
+Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.edu/~hzjiang/projects/superslomo/UCF101_results.zip) provided by paper's author. The `get_results_bug_fixed.sh` script was used. It uses motions masks when calculating PSNR, SSIM and IE.  
 
 | Method | PSNR | SSIM | IE |
 |------|:-----:|:-----:|:-----:|
@@ -29,7 +29,14 @@ For adobe240fps, [download the dataset](http://www.cs.ubc.ca/labs/imager/tr/2017
 python data\create_dataset.py --ffmpeg_dir path\to\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset --dataset adobe240fps
 ```
 
-More Info TBA
+### Training
+In the [train.ipynb](train.ipynb), set the parameters (dataset path, checkpoint directory, etc.) and run all the cells.  
+
+### Tensorboard
+To get visualization of your training, you can run tensorboard from the project directory using the command:
+```bash
+tensorboard --logdir logs --port 6007
+```
 
 ## Evaluation
 ### Pretrained model
@@ -41,6 +48,5 @@ More info TBA
 | Task | Status |
 |------|--------|
 |Add evaluation script for UCF dataset | TBD|  
-|Add pretrained model | In Progress|  
 |Add getting started guide | TBD|  
 |Add video converter script | In progress|  
