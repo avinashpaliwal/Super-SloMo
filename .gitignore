@@ -103,3 +103,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 .vscode/settings.json
+ffmpeg.exe
+GOPR9633.mp4
+output.mp4
+
+# ignore folder
+tmpSuperSloMo/

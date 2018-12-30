@@ -18,8 +18,8 @@ Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.
 <img src='./misc/slomo.gif'>
 
 ## Prerequisites
-This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.
-Install:  
+This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.  
+Install:
 * [PyTorch](https://pytorch.org/get-started/locally/)  
 * [TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization  
 * [tensorflow](https://www.tensorflow.org/install/) for tensorboard  
@@ -33,16 +33,18 @@ The create_dataset.py script uses [ffmpeg](https://www.ffmpeg.org/) to extract f
 #### Adobe240fps
 For adobe240fps, [download the dataset](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/DeepVideoDeblurring_Dataset_Original_High_FPS_Videos.zip), unzip it and then run the following command
 ```bash
-python data\create_dataset.py --ffmpeg_dir path\to\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset --dataset adobe240fps
+python data\create_dataset.py --ffmpeg_dir path\to\folder\containing\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset --dataset adobe240fps
 ```
 
 #### Custom
 For custom dataset, run the following command
 ```bash
-python data\create_dataset.py --ffmpeg_dir path\to\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset
+python data\create_dataset.py --ffmpeg_dir path\to\folder\containing\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset
 ```
 
-The default train-test split is 90-10. You can change that using command line argument `--train_test_split`.  Run the following commmand for help
+The default train-test split is 90-10. You can change that using command line argument `--train_test_split`.  
+
+Run the following commmand for help / more info
 ```bash
 python data\create_dataset.py --h
 ```
@@ -62,6 +64,18 @@ and then go to [https://localhost:6007](https://localhost:6007).
 ### Pretrained model
 You can download the pretrained model trained on adobe240fps dataset [here](https://drive.google.com/open?id=1IvobLDbRiBgZr3ryCRrWL8xDbMZ-KnpF).
 
+### Video Converter
+You can convert any video to a slomo or high fps video (or both) using [video_to_slomo.py](video_to_slomo.py). Use the command
+```bash
+python video_to_slomo.py --ffmpeg path\to\folder\containing\ffmpeg --video path\to\video.mp4 --sf N --checkpoint path\to\checkpoint.ckpt --fps M --output path\to\output.mp4
+```
+If you want to convert a video from 30fps to 90fps set `fps` to 90 and `sf` to 3 (to get 3x frames than the original video).
+  
+Run the following commmand for help / more info
+```bash
+python video_to_slomo.py --h
+```
+
 More info TBA
 
 ## To-Do's:
@@ -69,4 +83,5 @@ More info TBA
 |------|--------|
 |Add evaluation script for UCF dataset | TBD|  
 |Add getting started guide | TBD|  
-|Add video converter script | In progress|  
+|Add video converter script | Done|
+|Add pretrained model | Done|  
