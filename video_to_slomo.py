@@ -104,15 +104,17 @@ def main():
         exit(1)
 
     # Initialize transforms
+    # Temporary fix for issue #7 https://github.com/avinashpaliwal/Super-SloMo/issues/7 -
+    # - Removed per channel mean subtraction. 
     mean = [0.429, 0.431, 0.397]
     std  = [1, 1, 1]
     normalize = transforms.Normalize(mean=mean,
-                                    std=std)
-    transform = transforms.Compose([transforms.ToTensor(), normalize])
+                                     std=std)
+    transform = transforms.Compose([transforms.ToTensor()])
 
     negmean = [x * -1 for x in mean]
     revNormalize = transforms.Normalize(mean=negmean, std=std)
-    TP = transforms.Compose([revNormalize, transforms.ToPILImage()])
+    TP = transforms.Compose([transforms.ToPILImage()])
     
     # Load data
     videoFrames = dataloader.Video(root=extractionPath, transform=transform)
@@ -132,7 +134,7 @@ def main():
     flowBackWarp = model.backWarp(videoFrames.dim[0], videoFrames.dim[1], device)
     flowBackWarp = flowBackWarp.to(device)
 
-    dict1 = torch.load(args.checkpoint)
+    dict1 = torch.load(args.checkpoint, map_location='cpu')
     ArbTimeFlowIntrp.load_state_dict(dict1['state_dictAT'])
     flowComp.load_state_dict(dict1['state_dictFC'])
 
