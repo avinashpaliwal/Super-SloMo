@@ -105,7 +105,7 @@ class up(nn.Module):
         super(up, self).__init__()
         # Initialize convolutional layers.
         self.conv1 = nn.Conv2d(inChannels,  outChannels, 3, stride=1, padding=1)
-        # (2 * outChannels) is used for accomodating skip connection.
+        # (2 * outChannels) is used for accommodating skip connection.
         self.conv2 = nn.Conv2d(2 * outChannels, outChannels, 3, stride=1, padding=1)
            
     def forward(self, x, skpCn):
