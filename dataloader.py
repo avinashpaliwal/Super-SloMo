@@ -78,6 +78,8 @@ def _pil_loader(path, cropArea=None, resizeDim=None, frameFlip=0):
             path of the image.
         cropArea : tuple, optional
             coordinates for cropping image. Default: None
+        resizeDim : tuple, optional
+            dimensions for resizing image. Default: None
         frameFlip : int, optional
             Non zero to flip image horizontally. Default: 0
 
@@ -239,7 +241,7 @@ class SuperSloMo(data.Dataset):
         # Loop over for all frames corresponding to the `index`.
         for frameIndex in frameRange:
             # Open image using pil and augment the image.
-            image = _pil_loader(self.framesPath[index][frameIndex], cropArea, randomFrameFlip)
+            image = _pil_loader(self.framesPath[index][frameIndex], cropArea=cropArea, frameFlip=randomFrameFlip)
             # Apply transformation if specified.
             if self.transform is not None:
                 image = self.transform(image)
