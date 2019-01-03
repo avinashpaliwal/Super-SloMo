@@ -35,7 +35,7 @@ args = parser.parse_args()
 ### For visualizing loss and interpolated frames
 
 
-writer = SummaryWriter('logsTest')
+writer = SummaryWriter('log')
 
 
 ###Initialize flow computation and arbitrary-time flow interpolation CNNs.

@@ -63,6 +63,15 @@ python data\create_dataset.py --h
 ### Training
 In the [train.ipynb](train.ipynb), set the parameters (dataset path, checkpoint directory, etc.) and run all the cells.  
 
+or to train from terminal, run:
+```bash
+python train.py --dataset_root path\to\dataset --checkpoint_dir path\to\save\checkpoints
+```
+Run the following commmand for help / more options like continue from checkpoint, progress frequency etc.
+```bash
+python train.py --h
+```
+
 ### Tensorboard
 To get visualization of the training, you can run tensorboard from the project directory using the command:
 ```bash
