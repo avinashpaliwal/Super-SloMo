@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 import os
 import os.path
@@ -9,6 +10,7 @@ import torchvision.transforms as transforms
 import torch.nn.functional as F
 import model
 import dataloader
+import platform
 
 # For parsing commandline arguments
 parser = argparse.ArgumentParser()
@@ -87,12 +89,18 @@ def main():
         exit(1)
 
     # Create extraction folder and extract frames
+    IS_WINDOWS = 'Windows' == platform.system()
     extractionDir = "tmpSuperSloMo"
+    if not IS_WINDOWS:
+        # Assuming UNIX-like system where "." indicates hidden directories
+        extractionDir = "." + extractionDir
     if os.path.isdir(extractionDir):
         rmtree(extractionDir)
     os.mkdir(extractionDir)
-    FILE_ATTRIBUTE_HIDDEN = 0x02
-    ctypes.windll.kernel32.SetFileAttributesW(extractionDir, FILE_ATTRIBUTE_HIDDEN)
+    if IS_WINDOWS:
+        FILE_ATTRIBUTE_HIDDEN = 0x02
+        # ctypes.windll only exists on Windows
+        ctypes.windll.kernel32.SetFileAttributesW(extractionDir, FILE_ATTRIBUTE_HIDDEN)
 
     extractionPath = os.path.join(extractionDir, "input")
     outputPath     = os.path.join(extractionDir, "output")
