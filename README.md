@@ -35,6 +35,7 @@ pip install torchvision
 * [TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization  
 * [tensorflow](https://www.tensorflow.org/install/) for tensorboard  
 * [matplotlib](https://matplotlib.org/users/installing.html) for training graph in notebook.  
+* [tqdm](https://pypi.org/project/tqdm/) for progress bar in [video_to_slomo.py](video_to_slomo.py)  
 * [numpy](https://scipy.org/install.html)  
 
 ## Training

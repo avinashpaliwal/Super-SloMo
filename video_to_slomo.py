@@ -11,6 +11,7 @@ import torch.nn.functional as F
 import model
 import dataloader
 import platform
+from tqdm import tqdm
 
 # For parsing commandline arguments
 parser = argparse.ArgumentParser()
@@ -75,7 +76,7 @@ def extract_frames(video, outDir):
 def create_video(dir):
     error = ""
     print('{} -r {} -i {}/%d.jpg -qscale:v 2 {}'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), args.fps, dir, args.output))
-    retn = os.system('{} -r {} -i {}/%d.jpg -qscale:v 2 -vcodec libx264 {}'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), args.fps, dir, args.output))
+    retn = os.system('{} -r {} -i {}/%d.jpg -crf 17 -vcodec libx264 {}'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), args.fps, dir, args.output))
     if retn:
         error = "Error creating output video. Exiting."
     return error
@@ -112,24 +113,30 @@ def main():
         exit(1)
 
     # Initialize transforms
-    # Temporary fix for issue #7 https://github.com/avinashpaliwal/Super-SloMo/issues/7 -
-    # - Removed per channel mean subtraction. 
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
     mean = [0.429, 0.431, 0.397]
     std  = [1, 1, 1]
     normalize = transforms.Normalize(mean=mean,
                                      std=std)
-    transform = transforms.Compose([transforms.ToTensor()])
-
+    
     negmean = [x * -1 for x in mean]
     revNormalize = transforms.Normalize(mean=negmean, std=std)
-    TP = transforms.Compose([transforms.ToPILImage()])
-    
+
+    # Temporary fix for issue #7 https://github.com/avinashpaliwal/Super-SloMo/issues/7 -
+    # - Removed per channel mean subtraction for CPU.
+    if (device == "cpu"):
+        transform = transforms.Compose([transforms.ToTensor()])
+        TP = transforms.Compose([transforms.ToPILImage()])
+    else:
+        transform = transforms.Compose([transforms.ToTensor(), normalize])
+        TP = transforms.Compose([revNormalize, transforms.ToPILImage()])
+
     # Load data
     videoFrames = dataloader.Video(root=extractionPath, transform=transform)
     videoFramesloader = torch.utils.data.DataLoader(videoFrames, batch_size=args.batch_size, shuffle=False)
 
     # Initialize model
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     flowComp = model.UNet(6, 4)
     flowComp.to(device)
     for param in flowComp.parameters():
@@ -150,7 +157,7 @@ def main():
     frameCounter = 1
 
     with torch.no_grad():
-        for _, (frame0, frame1) in enumerate(videoFramesloader, 0):
+        for _, (frame0, frame1) in enumerate(tqdm(videoFramesloader), 0):
 
             I0 = frame0.to(device)
             I1 = frame1.to(device)
@@ -192,7 +199,7 @@ def main():
 
                 # Save intermediate frame
                 for batchIndex in range(args.batch_size):
-                    (TP(Ft_p[batchIndex].cpu().detach())).save(os.path.join(outputPath, str(frameCounter + args.sf * batchIndex) + ".jpg"))
+                    (TP(Ft_p[batchIndex].cpu().detach())).resize(videoFrames.origDim, Image.BILINEAR).save(os.path.join(outputPath, str(frameCounter + args.sf * batchIndex) + ".jpg"))
                 frameCounter += 1
             
             # Set counter accounting for batching of frames
