@@ -2,7 +2,7 @@
 Converts a Video to SuperSloMo version
 """
 from time import time
-
+import click
 import cv2
 import torch
 from PIL import Image
@@ -112,7 +112,7 @@ def denorm_frame(frame, w0, h0):
     return np.array(frame)[:, :, ::-1].copy()
 
 
-def convert_video(source, dest, factor, batch_size=10, output_format='XVID', output_fps=30):
+def convert_video(source, dest, factor, batch_size=10, output_format='mp4v', output_fps=30):
     vin = cv2.VideoCapture(source)
     count = vin.get(cv2.CAP_PROP_FRAME_COUNT)
     w0, h0 = int(vin.get(cv2.CAP_PROP_FRAME_WIDTH)), int(vin.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -150,13 +150,25 @@ def convert_video(source, dest, factor, batch_size=10, output_format='XVID', out
     vout.release()
 
 
-if __name__ == '__main__':
-    load_models('data/SuperSloMo.ckpt')
+@click.command('Evaluate Model by converting a low-FPS video to high-fps')
+@click.argument('input')
+@click.option('--checkpoint', help='Path to model checkpoint')
+@click.option('--output', help='Path to output file to save')
+@click.option('--batch', default=2, help='Number of frames to process in single forward pass')
+@click.option('--scale', default=4, help='Scale Factor of FPS')
+@click.option('--fps', default=30, help='FPS of output video')
+def main(input, checkpoint, output, batch, scale, fps):
+    load_models(checkpoint)
     t0 = time()
-    for dl, fd, fc in convert_video('data/1.mp4', 'data/2.mp4', 5, 2, output_fps=50):
+    for dl, fd, fc in convert_video(input, output, int(scale), int(batch), output_fps=int(fps)):
         fps = dl/(time() - t0)
         prg = int(100*fd/fc)
         eta = fps * (fc - fd)
-        print('Done:', prg, 'FPS :', fps, 'ETA :', eta)
+        print('\rDone: {:03d}% FPS: {:05.2f} ETA: {:08.2f}s   '.format(prg, fps, eta), end='')
         t0 = time()
+
+
+if __name__ == '__main__':
+    main()
+
 
