@@ -97,6 +97,15 @@ Run the following commmand for help / more info
 python video_to_slomo.py --h
 ```
 
+You can also use `eval.py` if you do not want to use ffmpeg. You will instead need to install `opencv-python` using pip for video IO.
+A sample usage would be:
+
+```bash
+python eval.py data/input.mp4 --checkpoint=data/SuperSloMo.ckpt --output=data/output.mp4 --scale=4
+```
+
+Use `python eval.py --help` for more details
+
 More info TBA
 
 ## To-Do's:

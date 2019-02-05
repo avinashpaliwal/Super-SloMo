@@ -158,13 +158,16 @@ def convert_video(source, dest, factor, batch_size=10, output_format='mp4v', out
 @click.option('--scale', default=4, help='Scale Factor of FPS')
 @click.option('--fps', default=30, help='FPS of output video')
 def main(input, checkpoint, output, batch, scale, fps):
+    avg = lambda x, n, x0: (x * n/(n+1) + x0 / (n+1), n+1)
     load_models(checkpoint)
     t0 = time()
+    n0 = 0
+    fpx = 0
     for dl, fd, fc in convert_video(input, output, int(scale), int(batch), output_fps=int(fps)):
-        fps = dl/(time() - t0)
+        fpx, n0 = avg(fpx, n0, dl / (time() - t0))
         prg = int(100*fd/fc)
-        eta = fps * (fc - fd)
-        print('\rDone: {:03d}% FPS: {:05.2f} ETA: {:08.2f}s   '.format(prg, fps, eta), end='')
+        eta = (fc - fd) / fpx
+        print('\rDone: {:03d}% FPS: {:05.2f} ETA: {:.2f}s'.format(prg, fpx, eta) + ' '*5, end='')
         t0 = time()
 
 
