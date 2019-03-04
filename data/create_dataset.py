@@ -66,7 +66,7 @@ def create_clips(root, destination):
 
     # Iterate over each folder containing extracted video frames.
     for file in files:
-        images = os.listdir(os.path.join(root, file))
+        images = sorted(os.listdir(os.path.join(root, file)))
 
         for imageCounter, image in enumerate(images):
             # Bunch images in groups of 12 frames
