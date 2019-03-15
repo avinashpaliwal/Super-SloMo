@@ -173,7 +173,7 @@ def main():
 
             # Generate intermediate frames
             for intermediateIndex in range(1, args.sf):
-                t = intermediateIndex / args.sf
+                t = float(intermediateIndex) / args.sf
                 temp = -t * (1 - t)
                 fCoeff = [temp, t * t, (1 - t) * (1 - t), temp]
 
