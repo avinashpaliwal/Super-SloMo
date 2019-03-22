@@ -109,3 +109,5 @@ output.mp4
 
 # ignore folder
 tmpSuperSloMo/
+
+*.ckpt
