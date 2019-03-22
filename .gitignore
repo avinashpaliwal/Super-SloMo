@@ -110,4 +110,6 @@ output.mp4
 # ignore folder
 tmpSuperSloMo/
 
+#changho custum
 *.ckpt
+/test_outputs
