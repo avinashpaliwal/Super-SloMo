@@ -109,11 +109,13 @@ def make_frames(I0, I1, dest, factor, output_format = 'png'):
     intermediate_frames = interpolate_batch(batch, factor)
     intermediate_frames = list(zip(*intermediate_frames))
 
+    #only one pair of image, len(intermadiated_frams) == number of the frame pairs
     intermediate_frames = intermediate_frames[0]
 
     i = 0
     for img in intermediate_frames:
-        x = trans_backward(img)
+        x = img.cpu()
+        x = trans_backward(x)
         x = x.resize((w0, h0), Image.BILINEAR)
         x = x.convert('RGB')
         x.save(dest+str(i)+'.'+output_format)
