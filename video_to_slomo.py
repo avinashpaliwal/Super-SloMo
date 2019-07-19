@@ -68,7 +68,7 @@ def extract_frames(video, outDir):
 
     error = ""
     print('{} -i {} -vsync 0 -qscale:v 2 {}/%06d.jpg'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), video, outDir))
-    retn = os.system('{} -i {} -vsync 0 -qscale:v 2 {}/%06d.jpg'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), video, outDir))
+    retn = os.system('{} -i {} -vsync 0 -qscale:v 2 {}/%06d.png'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), video, outDir))
     if retn:
         error = "Error converting file:{}. Exiting.".format(video)
     return error
@@ -76,7 +76,7 @@ def extract_frames(video, outDir):
 def create_video(dir):
     error = ""
     print('{} -r {} -i {}/%d.jpg -qscale:v 2 {}'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), args.fps, dir, args.output))
-    retn = os.system('{} -r {} -i {}/%d.jpg -crf 17 -vcodec libx264 {}'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), args.fps, dir, args.output))
+    retn = os.system('{} -r {} -i {}/%d.png -vcodec ffvhuff {}'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), args.fps, dir, args.output))
     if retn:
         error = "Error creating output video. Exiting."
     return error
@@ -119,7 +119,7 @@ def main():
     std  = [1, 1, 1]
     normalize = transforms.Normalize(mean=mean,
                                      std=std)
-    
+
     negmean = [x * -1 for x in mean]
     revNormalize = transforms.Normalize(mean=negmean, std=std)
 
@@ -145,7 +145,7 @@ def main():
     ArbTimeFlowIntrp.to(device)
     for param in ArbTimeFlowIntrp.parameters():
         param.requires_grad = False
-    
+
     flowBackWarp = model.backWarp(videoFrames.dim[0], videoFrames.dim[1], device)
     flowBackWarp = flowBackWarp.to(device)
 
@@ -182,17 +182,17 @@ def main():
 
                 g_I0_F_t_0 = flowBackWarp(I0, F_t_0)
                 g_I1_F_t_1 = flowBackWarp(I1, F_t_1)
-                
+
                 intrpOut = ArbTimeFlowIntrp(torch.cat((I0, I1, F_0_1, F_1_0, F_t_1, F_t_0, g_I1_F_t_1, g_I0_F_t_0), dim=1))
-                    
+
                 F_t_0_f = intrpOut[:, :2, :, :] + F_t_0
                 F_t_1_f = intrpOut[:, 2:4, :, :] + F_t_1
                 V_t_0   = F.sigmoid(intrpOut[:, 4:5, :, :])
                 V_t_1   = 1 - V_t_0
-                    
+
                 g_I0_F_t_0_f = flowBackWarp(I0, F_t_0_f)
                 g_I1_F_t_1_f = flowBackWarp(I1, F_t_1_f)
-                
+
                 wCoeff = [1 - t, t]
 
                 Ft_p = (wCoeff[0] * V_t_0 * g_I0_F_t_0_f + wCoeff[1] * V_t_1 * g_I1_F_t_1_f) / (wCoeff[0] * V_t_0 + wCoeff[1] * V_t_1)
@@ -201,7 +201,7 @@ def main():
                 for batchIndex in range(args.batch_size):
                     (TP(Ft_p[batchIndex].cpu().detach())).resize(videoFrames.origDim, Image.BILINEAR).save(os.path.join(outputPath, str(frameCounter + args.sf * batchIndex) + ".jpg"))
                 frameCounter += 1
-            
+
             # Set counter accounting for batching of frames
             frameCounter += args.sf * (args.batch_size - 1)
 
