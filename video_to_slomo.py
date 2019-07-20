@@ -20,7 +20,7 @@ parser.add_argument("--checkpoint", type=str, required=True, help='path of check
 parser.add_argument("--fps", type=float, default=30, help='specify fps of output video. Default: 30.')
 parser.add_argument("--sf", type=int, required=True, help='specify the slomo factor N. This will increase the frames by Nx. Example sf=2 ==> 2x frames')
 parser.add_argument("--batch_size", type=int, default=1, help='Specify batch size for faster conversion. This will depend on your cpu/gpu memory. Default: 1')
-parser.add_argument("--output", type=str, default="output.mp4", help='Specify output file name. Default: output.mp4')
+parser.add_argument("--output", type=str, default="output.mkv", help='Specify output file name. Default: output.mp4')
 args = parser.parse_args()
 
 def check():
@@ -45,6 +45,8 @@ def check():
         error = "Error: --batch_size has to be atleast 1"
     if (args.fps < 1):
         error = "Error: --fps has to be atleast 1"
+    if ".mkv" not in args.output:
+        error = "output needs to have mkv container"
     return error
 
 def extract_frames(video, outDir):
