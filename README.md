@@ -2,26 +2,26 @@
 PyTorch implementation of "Super SloMo: High Quality Estimation of Multiple Intermediate Frames for Video Interpolation" by Jiang H., Sun D., Jampani V., Yang M., Learned-Miller E. and Kautz J. [[Project]](https://people.cs.umass.edu/~hzjiang/projects/superslomo/) [[Paper]](https://arxiv.org/abs/1712.00080)
 
 ## Results
-Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.edu/~hzjiang/projects/superslomo/UCF101_results.zip) provided by paper's author. The `get_results_bug_fixed.sh` script was used. It uses motions masks when calculating PSNR, SSIM and IE.  
+Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.edu/~hzjiang/projects/superslomo/UCF101_results.zip) provided by paper's author. The `get_results_bug_fixed.sh` script was used. It uses motions masks when calculating PSNR, SSIM and IE.
 
 | Method | PSNR | SSIM | IE |
 |------|:-----:|:-----:|:-----:|
-| DVF | 29.37 | 0.861 | 16.37 |  
-| [SepConv](https://github.com/sniklaus/pytorch-sepconv) - L_1 | 30.18 | 0.875 | 15.54 |  
-| [SepConv](https://github.com/sniklaus/pytorch-sepconv) - L_F | 30.03 | 0.869 | 15.78 |  
-| SuperSloMo_Adobe240fps | 29.80 | 0.870 | 15.68 |  
-| **pretrained mine** | **29.77** | **0.874** | **15.58** |  
-| SuperSloMo | 30.22 | 0.880 | 15.18 |  
+| DVF | 29.37 | 0.861 | 16.37 |
+| [SepConv](https://github.com/sniklaus/pytorch-sepconv) - L_1 | 30.18 | 0.875 | 15.54 |
+| [SepConv](https://github.com/sniklaus/pytorch-sepconv) - L_F | 30.03 | 0.869 | 15.78 |
+| SuperSloMo_Adobe240fps | 29.80 | 0.870 | 15.68 |
+| **pretrained mine** | **29.77** | **0.874** | **15.58** |
+| SuperSloMo | 30.22 | 0.880 | 15.18 |
 
 
 <img src='./misc/original.gif'>
 <img src='./misc/slomo.gif'>
 
 ## Prerequisites
-This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.  
+This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.
 Install:
-* [PyTorch](https://pytorch.org/get-started/previous-versions/)  
-  
+* [PyTorch](https://pytorch.org/get-started/previous-versions/)
+
 For GPU, run
 ```bash
 conda install pytorch=0.4.1 cuda92 -c pytorch
@@ -32,16 +32,16 @@ For CPU, run
 conda install pytorch-cpu=0.4.1 -c pytorch
 pip install torchvision
 ```
-* [TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization  
-* [tensorflow](https://www.tensorflow.org/install/) for tensorboard  
-* [matplotlib](https://matplotlib.org/users/installing.html) for training graph in notebook.  
-* [tqdm](https://pypi.org/project/tqdm/) for progress bar in [video_to_slomo.py](video_to_slomo.py)  
-* [numpy](https://scipy.org/install.html)  
+* [TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization
+* [tensorflow](https://www.tensorflow.org/install/) for tensorboard
+* [matplotlib](https://matplotlib.org/users/installing.html) for training graph in notebook.
+* [tqdm](https://pypi.org/project/tqdm/) for progress bar in [video_to_slomo.py](video_to_slomo.py)
+* [numpy](https://scipy.org/install.html)
 
 ## Training
 ### Preparing training data
-In order to train the model using the provided code, the data needs to be formatted in a certain manner.  
-The create_dataset.py script uses [ffmpeg](https://www.ffmpeg.org/) to extract frames from videos.  
+In order to train the model using the provided code, the data needs to be formatted in a certain manner.
+The create_dataset.py script uses [ffmpeg](https://www.ffmpeg.org/) to extract frames from videos.
 #### Adobe240fps
 For adobe240fps, [download the dataset](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/DeepVideoDeblurring_Dataset_Original_High_FPS_Videos.zip), unzip it and then run the following command
 ```bash
@@ -54,7 +54,7 @@ For custom dataset, run the following command
 python data\create_dataset.py --ffmpeg_dir path\to\folder\containing\ffmpeg --videos_folder path\to\adobe240fps\videoFolder --dataset_folder path\to\dataset
 ```
 
-The default train-test split is 90-10. You can change that using command line argument `--train_test_split`.  
+The default train-test split is 90-10. You can change that using command line argument `--train_test_split`.
 
 Run the following commmand for help / more info
 ```bash
@@ -62,7 +62,7 @@ python data\create_dataset.py --h
 ```
 
 ### Training
-In the [train.ipynb](train.ipynb), set the parameters (dataset path, checkpoint directory, etc.) and run all the cells.  
+In the [train.ipynb](train.ipynb), set the parameters (dataset path, checkpoint directory, etc.) and run all the cells.
 
 or to train from terminal, run:
 ```bash
@@ -88,10 +88,10 @@ You can download the pretrained model trained on adobe240fps dataset [here](http
 ### Video Converter
 You can convert any video to a slomo or high fps video (or both) using [video_to_slomo.py](video_to_slomo.py). Use the command
 ```bash
-python video_to_slomo.py --ffmpeg path\to\folder\containing\ffmpeg --video path\to\video.mp4 --sf N --checkpoint path\to\checkpoint.ckpt --fps M --output path\to\output.mp4
+python video_to_slomo.py --ffmpeg path\to\folder\containing\ffmpeg --video path\to\video.mp4 --sf N --checkpoint path\to\checkpoint.ckpt --fps M --output path\to\output.mkv
 ```
 If you want to convert a video from 30fps to 90fps set `fps` to 90 and `sf` to 3 (to get 3x frames than the original video).
-  
+
 Run the following commmand for help / more info
 ```bash
 python video_to_slomo.py --h
@@ -111,7 +111,7 @@ More info TBA
 ## To-Do's:
 | Task | Status |
 |------|--------|
-|Add evaluation script for UCF dataset | TBD|  
-|Add getting started guide | TBD|  
+|Add evaluation script for UCF dataset | TBD|
+|Add getting started guide | TBD|
 |Add video converter script | Done|
-|Add pretrained model | Done|  
+|Add pretrained model | Done|
