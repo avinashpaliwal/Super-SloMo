@@ -108,10 +108,7 @@ Use `python eval.py --help` for more details
 
 More info TBA
 
-## To-Do's:
-| Task | Status |
-|------|--------|
-|Add evaluation script for UCF dataset | TBD|
-|Add getting started guide | TBD|
-|Add video converter script | Done|
-|Add pretrained model | Done|
+
+## References:
+Parts of the code is based on [TheFairBear/Super-SlowMo](https://github.com/TheFairBear/Super-SlowMo)
+
