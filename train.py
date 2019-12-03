@@ -107,7 +107,7 @@ scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=args.milestones
 ###Initializing VGG16 model for perceptual loss
 
 
-vgg16 = torchvision.models.vgg16()
+vgg16 = torchvision.models.vgg16(pretrained=True)
 vgg16_conv_4_3 = nn.Sequential(*list(vgg16.children())[0][:22])
 vgg16_conv_4_3.to(device)
 for param in vgg16_conv_4_3.parameters():
