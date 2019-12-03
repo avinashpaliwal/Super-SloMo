@@ -2,6 +2,7 @@ import argparse
 import os
 import os.path
 from shutil import rmtree, move
+import subprocess
 import random
 
 # For parsing commandline arguments
@@ -37,8 +38,9 @@ def extract_frames(videos, inDir, outDir):
 
     for video in videos:
         os.mkdir(os.path.join(outDir, os.path.splitext(video)[0]))
-        retn = os.system('{} -i {} -vf scale={}:{} -vsync 0 -qscale:v 2 {}/%04d.jpg'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), os.path.join(inDir, video), args.img_width, args.img_height, os.path.join(outDir, os.path.splitext(video)[0])))
-        if retn:
+        try:
+            subprocess.check_call([os.path.join(args.ffmpeg_dir, "ffmpeg"), '-i', os.path.join(inDir, video), '-vf', 'scale={}:{}'.format(args.img_width, args.img_height), '-vsync', '0', '-qscale:v', '2', '{}/%09d.jpg'.format(os.path.join(outDir, os.path.splitext(video)[0]))])
+        except subprocess.CalledProcessError:
             print("Error converting file:{}. Exiting.".format(video))
 
 

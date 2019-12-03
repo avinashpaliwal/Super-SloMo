@@ -2,6 +2,7 @@
 import argparse
 import os
 import os.path
+import subprocess
 import ctypes
 from shutil import rmtree, move
 from PIL import Image
@@ -66,21 +67,20 @@ def extract_frames(video, outDir):
     """
 
 
-    error = ""
-    print('{} -i {} -vsync 0 -qscale:v 2 {}/%06d.jpg'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), video, outDir))
-    retn = os.system('{} -i {} -vsync 0 -qscale:v 2 {}/%06d.jpg'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), video, outDir))
-    if retn:
-        error = "Error converting file:{}. Exiting.".format(video)
-    return error
+    cmd = [os.path.join(args.ffmpeg_dir, "ffmpeg"), '-i', video, '-vsync', '0', '-qscale:v', '2', '{}/%06d.jpg'.format(outDir)]
+    print(' '.join(cmd))
+    try:
+        subprocess.check_call(cmd)
+    except CalledProcessError:
+        return "Error converting file:{}. Exiting.".format(video)
 
 def create_video(dir):
-    error = ""
-    print('{} -r {} -i {}/%d.jpg -qscale:v 2 {}'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), args.fps, dir, args.output))
-    retn = os.system('{} -r {} -i {}/%d.jpg -crf 17 -vcodec libx264 {}'.format(os.path.join(args.ffmpeg_dir, "ffmpeg"), args.fps, dir, args.output))
-    if retn:
-        error = "Error creating output video. Exiting."
-    return error
-
+    cmd = [os.path.join(args.ffmpeg_dir, "ffmpeg"), '-r', str(args.fps), '-i', '{}/%d.jpg'.format(dir), '-crf', '17', '-vcodec', 'libx264', args.output]
+    print(' '.join(cmd))
+    try:
+        subprocess.check_call(cmd)
+    except CalledProcessError:
+        return "Error creating output video. Exiting."
 
 def main():
     # Check if arguments are okay
