@@ -18,19 +18,17 @@ Results on UCF101 dataset using the [evaluation script](https://people.cs.umass.
 <img src='./misc/slomo.gif'>
 
 ## Prerequisites
-This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2.
+This codebase was developed and tested with pytorch 0.4.1 and CUDA 9.2 and Python 3.6.
 Install:
 * [PyTorch](https://pytorch.org/get-started/previous-versions/)
 
 For GPU, run
 ```bash
-conda install pytorch=0.4.1 cuda92 -c pytorch
-pip install torchvision
+conda install pytorch=0.4.1 cuda92 torchvision==0.2.0 -c pytorch
 ```
 For CPU, run
 ```bash
-conda install pytorch-cpu=0.4.1 -c pytorch
-pip install torchvision
+conda install pytorch-cpu=0.4.1 torchvision-cpu==0.2.0 cpuonly -c pytorch
 ```
 * [TensorboardX](https://github.com/lanpa/tensorboardX) for training visualization
 * [tensorflow](https://www.tensorflow.org/install/) for tensorboard
