@@ -93,12 +93,12 @@ def main():
     os.mkdir(validationPath)
 
     if(args.dataset == "adobe240fps"):
-        f = open("adobe240fps/test_list.txt", "r")
+        f = open("data/adobe240fps/test_list.txt", "r")
         videos = f.read().split('\n')
         extract_frames(videos, args.videos_folder, extractPath)
         create_clips(extractPath, testPath)
 
-        f = open("adobe240fps/train_list.txt", "r")
+        f = open("data/adobe240fps/train_list.txt", "r")
         videos = f.read().split('\n')
         extract_frames(videos, args.videos_folder, extractPath)
         create_clips(extractPath, trainPath)
