@@ -127,7 +127,7 @@ class up(nn.Module):
         """
 
         # Bilinear interpolation with scaling 2.
-        x = F.interpolate(x, scale_factor=2, mode='bilinear')
+        x = F.interpolate(x, scale_factor=2, mode='bilinear', align_corners=True)
         # Convolution + Leaky ReLU
         x = F.leaky_relu(self.conv1(x), negative_slope = 0.1)
         # Convolution + Leaky ReLU on (`x`, `skpCn`)
@@ -281,7 +281,7 @@ class backWarp(nn.Module):
         # stacking X and Y
         grid = torch.stack((x,y), dim=3)
         # Sample pixels using bilinear interpolation.
-        imgOut = torch.nn.functional.grid_sample(img, grid)
+        imgOut = torch.nn.functional.grid_sample(img, grid, align_corners=True)
         return imgOut
 
 
