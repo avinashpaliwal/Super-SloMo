@@ -109,7 +109,7 @@ def main():
     extractionDir = "tmpSuperSloMo"
     if not IS_WINDOWS:
         # Assuming UNIX-like system where "." indicates hidden directories
-        extractionDir = "." + extractionDir
+        extractionDir = os.path.join("/var/tmp", extractionDir)
     if os.path.isdir(extractionDir):
         rmtree(extractionDir)
     os.mkdir(extractionDir)
