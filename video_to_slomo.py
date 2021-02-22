@@ -20,6 +20,7 @@ parser.add_argument("--checkpoint", type=str, required=True, help='path of check
 parser.add_argument("--fps", type=float, default=30, help='specify fps of output video. Default: 30.')
 parser.add_argument("--sf", type=int, required=True, help='specify the slomo factor N. This will increase the frames by Nx. Example sf=2 ==> 2x frames')
 parser.add_argument("--batch_size", type=int, default=1, help='Specify batch size for faster conversion. This will depend on your cpu/gpu memory. Default: 1')
+parser.add_argument("--vcodec", type=str, default="ffvhuff", help='Specify a codec different than default', choices=['ffvhuff', 'libx264'])
 parser.add_argument("--output", type=str, default="output.mkv", help='Specify output file name. Default: output.mp4')
 args = parser.parse_args()
 
@@ -75,10 +76,19 @@ def extract_frames(video, outDir):
     else:
         ffmpeg_path = "ffmpeg"
 
-    print('{} -i {} -vsync 0 {}/%06d.png'.format(ffmpeg_path, video, outDir))
-    retn = os.system('{} -i "{}" -vsync 0 {}/%06d.png'.format(ffmpeg_path, video, outDir))
+    ffmpeg_command = '{} -i {} -vsync 0 {}/%06d.png'.format(ffmpeg_path, video, outDir)
+
+    print(ffmpeg_command)
+    retn = os.system(ffmpeg_command)
     if retn:
         error = "Error converting file:{}. Exiting.".format(video)
+        return error
+
+    ffmpeg_command = '{} -i {} -c:a copy -map 0:a? {}/../audio.mkv'.format(ffmpeg_path, video, outDir)
+    print("Extracting audio:\n", ffmpeg_command)
+    retn = os.system(ffmpeg_command)
+    if retn:
+        error = "Error extracting audio from file:{}. Exiting.".format(video)
     return error
 
 def create_video(dir):
@@ -90,8 +100,15 @@ def create_video(dir):
         ffmpeg_path = "ffmpeg"
 
     error = ""
-    print('{} -r {} -i {}/%d.png -vcodec ffvhuff {}'.format(ffmpeg_path, args.fps, dir, args.output))
-    retn = os.system('{} -r {} -i {}/%d.png -vcodec ffvhuff "{}"'.format(ffmpeg_path, args.fps, dir, args.output))
+    
+    codec_args = ""
+    if args.vcodec == 'libx264':
+        codec_args = "-preset:v veryfast -crf 18 -pix_fmt yuv420p -tune:v film -profile:v high"
+    
+    ffmpeg_command = f'{ffmpeg_path} -r {args.fps} -i {dir}/%d.png -i {dir}/../audio.mkv -acodec copy -vcodec {args.vcodec} {codec_args} -map 0:v:0 -map 1:a:0? {args.output}'
+    
+    print(ffmpeg_command)
+    retn = os.system(ffmpeg_command)
     if retn:
         error = "Error creating output video. Exiting."
     return error
