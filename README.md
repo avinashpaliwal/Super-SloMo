@@ -1,4 +1,5 @@
 # Super-SloMo [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
 PyTorch implementation of "Super SloMo: High Quality Estimation of Multiple Intermediate Frames for Video Interpolation" by Jiang H., Sun D., Jampani V., Yang M., Learned-Miller E. and Kautz J. [[Project]](https://people.cs.umass.edu/~hzjiang/projects/superslomo/) [[Paper]](https://arxiv.org/abs/1712.00080)
 
 __Check out [our paper](https://github.com/avinashpaliwal/Deep-SloMo) "Deep Slow Motion Video Reconstruction with Hybrid Imaging System" published in TPAMI.__
@@ -86,7 +87,7 @@ and then go to [https://localhost:6007](https://localhost:6007).
 You can download the pretrained model trained on adobe240fps dataset [here](https://drive.google.com/open?id=1IvobLDbRiBgZr3ryCRrWL8xDbMZ-KnpF).
 
 ### Video Converter
-You can convert any video to a slomo or high fps video (or both) using [video_to_slomo.py](video_to_slomo.py). Use the command
+You can convert any video to a slomo or high fps video (or both) using [video_to_slomo.py](video_to_slomo.py) or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1vhj9Ih_VPrxR9V_MV01zB3l_Db9C0UTw). Use the command
 ```bash
 # Windows
 python video_to_slomo.py --ffmpeg path\to\folder\containing\ffmpeg --video path\to\video.mp4 --sf N --checkpoint path\to\checkpoint.ckpt --fps M --output path\to\output.mkv
