@@ -244,11 +244,10 @@ class backWarp(nn.Module):
 
         super(backWarp, self).__init__()
         # create a grid
-        gridX, gridY = np.meshgrid(np.arange(W), np.arange(H))
         self.W = W
         self.H = H
-        self.gridX = torch.tensor(gridX, requires_grad=False, device=device)
-        self.gridY = torch.tensor(gridY, requires_grad=False, device=device)
+        self.gridX, self.gridY = torch.meshgrid(torch.arange(W, requires_grad=False, device=device), 
+                                                torch.arange(H, requires_grad=False, device=device), indexing='xy')
         
     def forward(self, img, flow):
         """
